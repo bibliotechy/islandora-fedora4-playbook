@@ -1,0 +1,15 @@
+---
+
+common_packages:
+  - build-essential
+  - curl
+  - git
+  - htop
+  - openssh-server
+  - openssl
+  - python-pycurl
+  - tree
+  - ufw
+  - vim
+  - zip
+  - zsh

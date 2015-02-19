@@ -1,0 +1,20 @@
+---
+
+- name: install apache
+  apt:
+    pkg: "apache2"
+    state: latest
+    update_cache: yes
+  with_items: common_packages
+  tags:
+    - apache
+
+- name: install apache modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items: apache_modules
+  notify:
+    - restart apache
+  tags:
+    - apache

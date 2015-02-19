@@ -1,0 +1,5 @@
+---
+
+tomcat7_java_type: "jre-headless"
+tomcat7_base: /var/lib/tomcat7
+tomcat7_home: /usr/share/tomcat7

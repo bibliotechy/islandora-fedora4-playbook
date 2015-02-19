@@ -1,0 +1,16 @@
+[database]
+localhost
+
+[fedora]
+localhost tomcat7_java_type=jdk
+
+[camel]
+localhost tomcat7_java_type=jdk
+
+[solr]
+localhost tomcat7_java_type=jdk
+
+[webserver]
+localhost
+
+# djatoka

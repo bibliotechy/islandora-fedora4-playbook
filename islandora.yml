@@ -1,0 +1,54 @@
+---
+
+- name: database setup
+  hosts: database
+  user: "{{ ansible_ssh_user }}"
+  sudo: yes
+
+  roles:
+    - common
+    - mysql
+
+- name: fedora setup
+  hosts: fedora
+  user: "{{ ansible_ssh_user }}"
+  sudo: yes
+
+  roles:
+    - common
+    - tomcat7
+    - fcrepo4
+
+- name: camel setup
+  hosts: camel
+  user: "{{ ansible_ssh_user }}"
+  sudo: yes
+
+  roles:
+    - common
+    # - tomcat7
+    - camel
+    - fcrepo-camel
+
+- name: solr setup
+  hosts: solr
+  user: "{{ ansible_ssh_user }}"
+  sudo: yes
+
+  roles:
+    - common
+    - tomcat7
+    - solr
+
+- name: webserver setup
+  hosts: webserver
+  user: "{{ ansible_ssh_user }}"
+  sudo: yes
+
+  roles:
+    - common
+    - apache
+    - drupal
+    - islandora
+
+# and at the end would be djatoka
