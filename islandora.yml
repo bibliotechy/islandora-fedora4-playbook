@@ -2,7 +2,7 @@
 
 - name: database setup
   hosts: database
-  user: "{{ ansible_ssh_user }}"
+  remote_user: "{{ deploy_user }}"
   sudo: yes
 
   roles:
@@ -11,7 +11,7 @@
 
 - name: fedora setup
   hosts: fedora
-  user: "{{ ansible_ssh_user }}"
+  remote_user: "{{ deploy_user }}"
   sudo: yes
 
   roles:
@@ -21,7 +21,7 @@
 
 - name: camel setup
   hosts: camel
-  user: "{{ ansible_ssh_user }}"
+  remote_user: "{{ deploy_user }}"
   sudo: yes
 
   roles:
@@ -32,7 +32,7 @@
 
 - name: solr setup
   hosts: solr
-  user: "{{ ansible_ssh_user }}"
+  remote_user: "{{ deploy_user }}"
   sudo: yes
 
   roles:
@@ -42,7 +42,7 @@
 
 - name: webserver setup
   hosts: webserver
-  user: "{{ ansible_ssh_user }}"
+  remote_user: "{{ deploy_user }}"
   sudo: yes
 
   roles:

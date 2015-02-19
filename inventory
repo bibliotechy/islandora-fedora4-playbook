@@ -1,16 +1,21 @@
+[all:vars]
+deploy_user=vagrant
+tomcat7_java_type=jdk
+ansible_ssh_host=10.11.12.15
+
 [database]
-localhost
+islf4-db
 
 [fedora]
-localhost tomcat7_java_type=jdk
+islf4-fedora
 
 [camel]
-localhost tomcat7_java_type=jdk
+islf4-camel
 
 [solr]
-localhost tomcat7_java_type=jdk
+islf4-solr
 
 [webserver]
-localhost
+islf4-web
 
 # djatoka
