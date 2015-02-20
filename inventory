@@ -1,6 +1,5 @@
 [all:vars]
 deploy_user=vagrant
-tomcat7_java_type=jdk
 ansible_ssh_host=10.11.12.15
 
 [database]
@@ -14,6 +13,9 @@ islf4-camel
 
 [solr]
 islf4-solr
+
+[fuseki]
+islf4-fuseki
 
 [webserver]
 islf4-web

@@ -1,0 +1,7 @@
+---
+
+fuseki_version: 1.1.1
+fuseki_pkg: "jena-fuseki-{{ fuseki_version }}"
+fuseki_bin: "{{ fuseki_pkg }}-distribution.tar.gz"
+fuseki_download_url: "http://www.apache.org/dist/jena/binaries/{{ fuseki_bin }}"
+fuseki_home: /usr/share/fuseki

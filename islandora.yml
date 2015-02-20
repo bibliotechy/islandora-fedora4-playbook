@@ -40,6 +40,15 @@
     - tomcat7
     - solr
 
+- name: fuseki setup
+  hosts: fuseki
+  remote_user: "{{ deploy_user }}"
+  sudo: yes
+
+  roles:
+    - common
+    - fuseki
+
 - name: webserver setup
   hosts: webserver
   remote_user: "{{ deploy_user }}"

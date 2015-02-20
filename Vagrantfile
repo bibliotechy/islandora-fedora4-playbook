@@ -7,10 +7,11 @@ $islf4 = {
   ram: 2048,
   ip_address: "10.11.12.15",
   ports: [
-    { guest: 80, host: 8000 },
-    { guest: 3306, host: 3306 },
-    { guest: 8080, host: 8080 },
-    { guest: 8181, host: 8181 },
+    { guest: 80, host: 8000 },   # apache
+    { guest: 3030, host: 3030 }, # fuseki
+    { guest: 3306, host: 3306 }, # mysql
+    { guest: 8080, host: 8080 }, # tomcat
+    { guest: 8181, host: 8181 }, # karaf
   ],
 }
 

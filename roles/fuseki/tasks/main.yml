@@ -1,0 +1,42 @@
+---
+
+- name: download fuseki
+  sudo: no
+  local_action: >
+    get_url
+    url="{{ fuseki_download_url }}"
+    dest="bin/{{ fuseki_bin }}"
+  tags:
+   - fuseki
+
+- name: install required packages
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - openjdk-7-jre-headless
+  tags:
+    - camel
+
+- name: create fuseki directory
+  file:
+    path: /opt/fuseki
+    state: directory
+  tags:
+   - fuseki
+
+- name: copy fuseki to server
+  unarchive:
+    src: "bin/{{ fuseki_bin }}"
+    dest: "/opt/fuseki"
+  tags:
+   - fuseki
+
+- name: symlink fuseki to defined home
+  file:
+    src: "/opt/fuseki/{{ fuseki_pkg }}"
+    dest: "{{ fuseki_home }}"
+    state: link
+  tags:
+   - fuseki
