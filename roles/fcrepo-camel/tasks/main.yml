@@ -1,1 +1,10 @@
 ---
+
+- name: download fcrepo-camel
+  sudo: no
+  local_action: >
+    get_url
+    url="{{ fcrepo_camel_download_url }}"
+    dest="bin/{{ fcrepo_camel_bin }}"
+  tags:
+   - fcrepo-camel

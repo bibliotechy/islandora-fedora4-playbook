@@ -1,0 +1,6 @@
+---
+
+fcrepo_camel_version: 4.1.0
+fcrepo_camel_bin: "fcrepo-camel-{{ fcrepo_camel_version }}.jar"
+fcrepo_camel_download_url: "https://github.com/fcrepo4/fcrepo-camel/releases/download/fcrepo-camel-{{ fcrepo_camel_version }}/{{ fcrepo_camel_bin }}"
+fcrepo_camel_home: /usr/share/fcrepo-camel

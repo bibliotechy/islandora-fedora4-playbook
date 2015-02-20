@@ -1,0 +1,7 @@
+---
+
+camel_version: 2.14.1
+camel_pkg: "apache-camel-{{ camel_version }}"
+camel_bin: "{{ camel_pkg }}.tar.gz"
+camel_download_url: "http://mirror.csclub.uwaterloo.ca/apache/camel/apache-camel/{{ camel_version }}/{{ camel_bin }}"
+camel_home: /usr/share/camel

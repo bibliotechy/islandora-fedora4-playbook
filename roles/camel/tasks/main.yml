@@ -1,5 +1,14 @@
 ---
 
+- name: download camel
+  sudo: no
+  local_action: >
+    get_url
+    url="{{ camel_download_url }}"
+    dest="bin/{{ camel_bin }}"
+  tags:
+   - camel
+
 - name: install required packages
   apt:
     pkg: "{{ item }}"

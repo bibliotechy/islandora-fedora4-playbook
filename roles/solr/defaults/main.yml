@@ -1,3 +1,7 @@
 ---
 
 solr_version: 4.10.3
+solr_pkg: "solr-{{ solr_version }}"
+solr_bin: "{{ solr_pkg }}.tgz"
+solr_download_url: "http://archive.apache.org/dist/lucene/solr/{{ solr_version }}/{{ solr_bin }}"
+solr_home: /var/lib/tomcat7/solr
