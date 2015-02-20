@@ -16,7 +16,6 @@
 
   roles:
     - common
-    - tomcat7
     - fcrepo4
 
 - name: camel setup
@@ -37,7 +36,6 @@
 
   roles:
     - common
-    - tomcat7
     - solr
 
 - name: fuseki setup
