@@ -1,5 +1,7 @@
 ---
 
+common_required: true
+
 common_packages:
   - build-essential
   - curl

@@ -1,10 +1,4 @@
 ---
 
-- name: install required packages
-  apt:
-    pkg: "{{ item }}"
-    state: latest
-    update_cache: yes
-  with_items: common_packages
-  tags:
-    - common
+- include: common.yml
+  when: common_required

@@ -1,5 +1,17 @@
 ---
 
+- name: vagrant optimization
+  hosts: all
+  remote_user: "{{ deploy_user }}"
+  sudo: yes
+
+  roles:
+    - common
+
+  post_tasks:
+    - set_fact:
+        common_required: false
+
 - name: database setup
   hosts: database
   remote_user: "{{ deploy_user }}"

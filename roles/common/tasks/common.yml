@@ -1,0 +1,12 @@
+---
+
+- name: install required packages
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items: common_packages
+  # vagrant optimization
+  run_once: true
+  tags:
+    - common
