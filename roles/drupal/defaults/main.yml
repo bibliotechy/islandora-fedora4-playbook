@@ -2,6 +2,9 @@
 
 drupal_path: /var/www/html/drupal
 
+# set to false if another role will provide vhost configuration
+drupal_configure_vhosts: true
+
 drupal_php_packages:
   - php5-cli
   - php5-gd

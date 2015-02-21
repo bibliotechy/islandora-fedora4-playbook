@@ -1,20 +1,43 @@
 ---
 
-- name: install apache
+- name: install apache2
   apt:
     pkg: "apache2"
     state: latest
     update_cache: yes
   with_items: common_packages
   tags:
-    - apache
+    - apache2
 
-- name: install apache modules
+- name: install apache2 modules
   apache2_module:
     name: "{{ item }}"
     state: present
-  with_items: apache_modules
+  with_items: apache2_modules
   notify:
     - restart apache2
   tags:
-    - apache
+    - apache2
+
+# todo: vars
+- name: apply templated apache2 config
+  template:
+    src: apache2.conf.j2
+    dest: /etc/apache2/apache2.conf
+    backup: yes
+  tags:
+    - apache2
+
+- name: remove default site files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/apache2/sites-enabled/000-default.conf
+    - /etc/apache2/sites-available/000-default.conf
+    - /var/www/html/index.html
+  when: apache2_disable_default
+  notify:
+    - restart apache2
+  tags:
+    - apache2

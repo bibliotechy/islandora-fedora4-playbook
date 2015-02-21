@@ -1,4 +1,6 @@
 ---
 
-apache_modules:
+apache2_modules:
   - rewrite
+
+apache2_disable_default: true

@@ -1,0 +1,23 @@
+<VirtualHost *:80>
+        ServerName {{ item.domain }}
+
+{% for alias in item.aliases %}
+    {%- if alias != item.domain -%}
+        ServerAlias {{ alias }}
+    {%- endif -%}
+{% endfor %}
+
+        DocumentRoot /var/www/html/drupal
+
+        <Directory /var/www/html/drupal>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Require all granted
+                include /var/www/html/drupal/.htaccess
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/error-{{ item.code }}.log
+        CustomLog ${APACHE_LOG_DIR}/access-{{ item.code }}.log combined
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet

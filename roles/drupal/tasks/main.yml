@@ -12,9 +12,6 @@
   tags:
     - drupal
 
-# disable default apache site (apache role option)
-# add virtual host for each site and notify
-
 - name: drush download drupal
   shell: >
     drush dl drupal --drupal-project-rename=drupal
@@ -72,7 +69,15 @@
   tags:
     - drupal
 
-# create settings.php file
+- name: add site settings
+  template:
+    src: settings.php.j2
+    dest: "{{ drupal_path }}/sites/{{ item.code }}/settings.php"
+  with_items: drupal_sites
+  notify:
+    - restart apache2
+  tags:
+    - drupal
 
 - name: re/set web directory permissions
   file:
@@ -83,3 +88,26 @@
     recurse: yes
   tags:
    - drupal
+
+- name: create site virtual hosts
+  template:
+    src: site.conf.j2
+    dest: "/etc/apache2/sites-available/{{ item.code }}.conf"
+  with_items: drupal_sites
+  when: drupal_configure_vhosts
+  notify:
+    - restart apache2
+  tags:
+    - drupal
+
+- name: enable site virtual hosts
+  file:
+    src: "/etc/apache2/sites-available/{{ item.code }}.conf"
+    dest: "/etc/apache2/sites-enabled/{{ item.code }}.conf"
+    state: link
+  with_items: drupal_sites
+  when: drupal_configure_vhosts
+  notify:
+    - restart apache2
+  tags:
+    - drupal
