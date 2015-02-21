@@ -8,3 +8,76 @@
     dest="bin/{{ solr_bin }}"
   tags:
    - solr
+
+- name: create solr package directory
+  file:
+    path: /opt/solr
+    state: directory
+  tags:
+   - solr
+
+- name: copy solr to server
+  unarchive:
+    src: "bin/{{ solr_bin }}"
+    dest: "/opt/solr"
+    creates: "/opt/solr/{{ solr_pkg }}"
+  register: solr_pkg_upload
+  notify: restart tomcat7
+  tags:
+   - solr
+
+- name: remove solr webapp
+  file:
+    path: "{{ tomcat7_base }}/webapps/solr.war"
+    state: absent
+  when: solr_pkg_upload.changed
+  tags:
+   - solr
+
+- name: copy solr war to tomcat webapps
+  shell: >
+    cp /opt/solr/{{ solr_pkg }}/dist/solr-{{ solr_version }}.war \
+      {{ tomcat7_base }}/webapps/solr.war
+    creates={{ tomcat7_base }}/webapps/solr.war
+  tags:
+   - solr
+
+- name: copy solr packaged libraries to tomcat
+  shell: >
+    cp /opt/solr/{{ solr_pkg }}/example/lib/ext/{{ item }} \
+      {{ tomcat7_home }}/lib
+    creates={{ tomcat7_home }}/lib/{{ item }}
+  with_items: solr_pkg_libs
+  tags:
+   - solr
+
+- name: re/set solr permissions
+  file:
+    path: "{{ item.path }}"
+    owner: tomcat7
+    group: tomcat7
+    state: "{{ item.state }}"
+    recurse: "{{ item.recurse }}"
+  with_items:
+    -
+      path: /opt/solr
+      state: directory
+      recurse: yes
+    -
+      path: "{{ tomcat7_home }}/lib"
+      state: directory
+      recurse: yes
+    -
+      path: "{{ tomcat7_base }}/webapps/solr.war"
+      state: file
+      recurse: no
+  tags:
+   - solr
+
+- name: symlink solr home
+  file:
+    src: "/opt/solr/{{ solr_pkg }}/example/solr"
+    dest: "{{ solr_home }}"
+    state: link
+  tags:
+   - solr
