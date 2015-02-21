@@ -67,8 +67,19 @@
   template:
     src: sites.php.j2
     dest: "{{ drupal_path }}/sites/sites.php"
+  notify:
+    - restart apache2
   tags:
     - drupal
 
 # create settings.php file
-# reset permissions
+
+- name: re/set web directory permissions
+  file:
+    path: /var/www
+    owner: www-data
+    group: www-data
+    state: directory
+    recurse: yes
+  tags:
+   - drupal
