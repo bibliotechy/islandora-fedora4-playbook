@@ -1,3 +1,72 @@
 ---
 
-# php, drush and the like ...
+- name: install required packages
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_flattened:
+    - php5
+    - "{{ drupal_php_packages }}"
+    - drush
+  tags:
+    - drupal
+
+# disable default apache site (apache role option)
+# add virtual host for each site and notify
+
+- name: drush download drupal
+  shell: >
+    drush dl drupal --drupal-project-rename=drupal
+    chdir=/var/www/html
+    creates={{ drupal_path }}
+  tags:
+    - drupal
+
+- name: drush download modules
+  shell: >
+    drush dl {{ item }}
+    chdir={{ drupal_path }}/sites/all/modules
+    creates={{ drupal_path }}/sites/all/modules/{{ item }}
+  with_items: drupal_drush_modules
+  tags:
+    - drupal
+
+- name: drush download themes
+  shell: >
+    drush dl {{ item }}
+    chdir={{ drupal_path }}/sites/all/themes
+    creates={{ drupal_path }}/sites/all/themes/{{ item }}
+  with_items: drupal_drush_themes
+  tags:
+    - drupal
+
+- name: create drupal site directories
+  file:
+    path: "{{ drupal_path }}/sites/{{ item.code }}"
+    state: directory
+    mode: "0755"
+  with_items: drupal_sites
+  tags:
+    - drupal
+
+- name: create drupal site sub-directories
+  file:
+    path: "{{ drupal_path }}/sites/{{ item.0.code }}/{{ item.1 }}"
+    state: directory
+    mode: "0775"
+  with_nested:
+    - drupal_sites
+    - "[ 'files', 'xmlsitemap' ]"
+  tags:
+    - drupal
+
+- name: add site aliases
+  template:
+    src: sites.php.j2
+    dest: "{{ drupal_path }}/sites/sites.php"
+  tags:
+    - drupal
+
+# create settings.php file
+# reset permissions

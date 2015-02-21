@@ -1,0 +1,30 @@
+---
+
+drupal_path: /var/www/html/drupal
+
+drupal_php_packages:
+  - php5-cli
+  - php5-gd
+  - php5-mysql
+
+drupal_drush_modules:
+  - devel
+  - services
+
+drupal_drush_themes:
+  - bootstrap
+  - zen
+
+# move to islandora role when ready
+drupal_sites:
+  -
+    # drupal site dir, db name and db username
+    code: default
+    name: Islandora Fedora 4
+    domain: islandora-fedora4.org
+    # drupal admin and db username password
+    password: islandora
+    # sites.php mappings (include domain)
+    aliases:
+      - islandora-fedora4.org
+      - islf4.vagrant

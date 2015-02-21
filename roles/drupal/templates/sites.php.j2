@@ -1,0 +1,6 @@
+<?php
+{% for site in drupal_sites -%}
+{% for alias in site.aliases -%}
+$sites['{{ alias }}'] = '{{ site.code }}';
+{% endfor %}
+{% endfor %}
