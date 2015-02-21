@@ -1,6 +1,7 @@
 [all:vars]
 deploy_user=vagrant
 ansible_ssh_host=10.11.12.15
+postgresql_db_master=islf4-db
 
 # suffixed aliases to "simulate" different hostnames and allow `--limit`
 

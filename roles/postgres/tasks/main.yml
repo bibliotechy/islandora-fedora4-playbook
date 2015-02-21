@@ -1,1 +1,46 @@
 ---
+
+- name: add postgresql repository apt-key
+  apt_key:
+    id: "{{ postgresql_apt_key.id }}"
+    url: "{{ postgresql_apt_key.url }}"
+    state: present
+  tags:
+    - postgresql
+
+- name: add the postgresql apt repository
+  apt_repository:
+    repo: "{{ postgresql_apt_repository }}"
+    state: present
+    update_cache: yes
+  tags:
+    - postgresql
+
+- name: ensure locale is postgresql friendly
+  copy:
+    src: locale
+    dest: /etc/default/locale
+  tags:
+    - postgresql
+
+- name: install postgresql and dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - "postgresql-{{ postgresql_version }}"
+    - "postgresql-client-{{ postgresql_version }}"
+    - "postgresql-contrib-{{ postgresql_version }}"
+    - python-psycopg2
+    - python-pycurl
+  tags:
+    - postgresql
+
+- name: update postgres user password
+  sudo_user: postgres
+  postgresql_user:
+    name: "postgres"
+    password: "{{ postgresql_pg_password }}"
+  tags:
+   - postgres

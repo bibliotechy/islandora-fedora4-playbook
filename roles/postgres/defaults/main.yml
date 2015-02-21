@@ -1,0 +1,11 @@
+---
+
+postgresql_apt_repository: "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main"
+
+postgresql_apt_key:
+  id: ACCC4CF8
+  url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+postgresql_version: 9.4
+
+postgresql_pg_password: postgres
