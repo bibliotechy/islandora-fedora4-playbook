@@ -15,6 +15,6 @@
     state: present
   with_items: apache_modules
   notify:
-    - restart apache
+    - restart apache2
   tags:
     - apache

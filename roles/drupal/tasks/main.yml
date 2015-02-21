@@ -20,6 +20,8 @@
     drush dl drupal --drupal-project-rename=drupal
     chdir=/var/www/html
     creates={{ drupal_path }}
+  notify:
+    - restart apache2
   tags:
     - drupal
 
