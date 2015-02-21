@@ -10,3 +10,39 @@
     - tomcat7
   tags:
     - tomcat7
+
+- name: download tomcat7 libraries
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ tomcat7_home }}/lib"
+  with_items: tomcat7_libs
+  register: restart tomcat7
+  tags:
+    - tomcat7
+
+- name: create the velocity log file
+  file:
+    path: "{{ tomcat7_base }}/velocity.log"
+    state: touch
+  changed_when: false
+  tags:
+    - tomcat7
+
+- name: re/set tomcat permissions
+  file:
+    path: "{{ item.path }}"
+    owner: tomcat7
+    group: tomcat7
+    state: "{{ item.state }}"
+    recurse: "{{ item.recurse }}"
+  with_items:
+    -
+      path: "{{ tomcat7_home }}"
+      state: directory
+      recurse: yes
+    -
+      path: "{{ tomcat7_base }}"
+      state: directory
+      recurse: yes
+  tags:
+   - tomcat7
