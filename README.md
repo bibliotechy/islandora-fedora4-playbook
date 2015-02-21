@@ -35,4 +35,10 @@ ansible-playbook -i inventory-vagrant/hosts islandora.yml --tags=fuseki --privat
 ansible-playbook -i inventory-vagrant/hosts islandora.yml --limit=webserver --tags=drupal --private-key=~/.vagrant.d/insecure_private_key
 ```
 
+Future
+------
+
+- Ignore roles directory contents and use requirements file to download them
+- Integrate (example) using cloud provider (i.e. AWS)
+
 ---
