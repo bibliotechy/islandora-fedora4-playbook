@@ -5,3 +5,8 @@ fuseki_pkg: "jena-fuseki-{{ fuseki_version }}"
 fuseki_bin: "{{ fuseki_pkg }}-distribution.tar.gz"
 fuseki_download_url: "http://www.apache.org/dist/jena/binaries/{{ fuseki_bin }}"
 fuseki_home: /usr/share/fuseki
+
+fuseki_environment:
+  FUSEKI_USER: "fuseki"
+  FUSEKI_HOME: "{{ fuseki_home }}"
+  FUSEKI_ARGS: "--update --mem /fcrepo"

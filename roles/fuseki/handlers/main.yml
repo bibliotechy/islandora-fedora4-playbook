@@ -1,0 +1,6 @@
+---
+
+- name: restart fuseki
+  service:
+    name: fuseki
+    state: restarted

@@ -17,9 +17,35 @@
   with_items:
     - openjdk-7-jre-headless
   tags:
-    - camel
+    - fuseki
 
-- name: create fuseki directory
+- name: create fuseki group
+  group:
+    name: fuseki
+    state: present
+  tags:
+    - fuseki
+
+- name: create fuseki user
+  user:
+    name: fuseki
+    group: fuseki
+    shell: /bin/bash
+  tags:
+    - fuseki
+
+- name: set fuseki environment
+  lineinfile:
+    dest: /etc/default/fuseki
+    line: "export {{ item.key }}='{{ item.value }}'"
+    regexp: "^export {{ item.key }}="
+    create: yes
+  with_dict: fuseki_environment
+  notify: restart fuseki
+  tags:
+    - fuseki
+
+- name: create fuseki package directory
   file:
     path: /opt/fuseki
     state: directory
@@ -30,13 +56,42 @@
   unarchive:
     src: "bin/{{ fuseki_bin }}"
     dest: "/opt/fuseki"
+    creates: "/opt/fuseki/{{ fuseki_pkg }}"
+  notify: restart fuseki
   tags:
    - fuseki
 
-- name: symlink fuseki to defined home
+- name: re/set fuseki directory permissions
   file:
-    src: "/opt/fuseki/{{ fuseki_pkg }}"
-    dest: "{{ fuseki_home }}"
+    path: /opt/fuseki
+    owner: fuseki
+    group: fuseki
+    state: directory
+    recurse: yes
+  tags:
+   - fuseki
+
+- name: symlink fuseki home and init script
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     state: link
+  with_items:
+    -
+      src: "/opt/fuseki/{{ fuseki_pkg }}"
+      dest: "{{ fuseki_home }}"
+    -
+      src: "{{ fuseki_home }}/fuseki"
+      dest: "/etc/init.d/fuseki"
+  notify: restart fuseki
+  tags:
+   - fuseki
+
+- name: start fuseki
+  service:
+    name: fuseki
+    state: started
+    enabled: yes
+    pattern: "{{ fuseki_home }}/fuseki-server.jar"
   tags:
    - fuseki
