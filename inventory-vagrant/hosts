@@ -1,0 +1,25 @@
+[all:vars]
+deploy_user=vagrant
+ansible_ssh_host=10.11.12.15
+
+# suffixed aliases to "simulate" different hostnames and allow `--limit`
+
+[database]
+islf4-db
+
+[fedora]
+islf4-fedora
+
+[camel]
+islf4-camel
+
+[solr]
+islf4-solr
+
+[fuseki]
+islf4-fuseki
+
+[webserver]
+islf4-webserver
+
+# djatoka

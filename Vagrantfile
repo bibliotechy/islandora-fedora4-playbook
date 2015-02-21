@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :ansible do |ansible|
     ansible.host_key_checking = false
     ansible.playbook = "islandora.yml"
-    ansible.inventory_path = "inventory"
+    ansible.inventory_path = "inventory-vagrant/hosts"
     ansible.limit = 'all'
   end
 
