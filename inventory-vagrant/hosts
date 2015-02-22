@@ -10,6 +10,8 @@ postgresql_pg_password=postgres
 [database]
 islf4-db
 
+# memcache
+
 [fedora]
 islf4-fedora
 
@@ -24,5 +26,7 @@ islf4-fuseki
 
 [webserver]
 islf4-webserver
+
+# load-balancer
 
 # djatoka

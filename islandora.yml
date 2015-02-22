@@ -21,6 +21,8 @@
     - common
     - postgres
 
+# hosts: memcache
+
 - name: fedora setup
   hosts: fedora
   remote_user: "{{ deploy_user }}"
@@ -96,4 +98,6 @@
     - common
     - islandora
 
-# and at the end would be djatoka
+# hosts: load-balancer
+
+# hosts: djatoka

@@ -54,6 +54,7 @@ Future
 
 - Ignore roles directory contents and use requirements file to download them
 - Integrate (example) using cloud provider (i.e. AWS)
+- Placeholder for persistent storage solution (glusterfs)?
 - Test `vagrant` folder symlinks to source directories
 
 ---
