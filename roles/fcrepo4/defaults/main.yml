@@ -1,3 +1,6 @@
 ---
 
+fcrepo4_version: 4.1.0
+fcrepo4_bin: "fcrepo-webapp-{{ fcrepo4_version }}.war"
+fcrepo4_download_url: "https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-{{ fcrepo4_version }}/fcrepo-webapp-{{ fcrepo4_version }}.war"
 fcrepo4_data_directory: /var/lib/tomcat7/fcrepo4-data

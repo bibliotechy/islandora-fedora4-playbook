@@ -1,0 +1,21 @@
+---
+
+- name: download fcrepo4
+  sudo: no
+  local_action: >
+    get_url
+    url="{{ fcrepo4_download_url }}"
+    dest="bin/{{ fcrepo4_bin }}"
+  tags:
+   - fcrepo4
+
+- name: copy fcrepo4 to tomcat webapps
+  copy:
+    src: "bin/{{ fcrepo4_bin }}"
+    dest: "{{ tomcat7_base }}/webapps/fcrepo.war"
+    owner: tomcat7
+    group: tomcat7
+  notify:
+    - restart tomcat7
+  tags:
+    - fcrepo4
