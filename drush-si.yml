@@ -1,0 +1,46 @@
+---
+
+# use to re/install a site
+# ansible-playbook -i inventory-vagrant/hosts drush-si.yml --private-key=~/.vagrant.d/insecure_private_key
+
+- name: gather database facts
+  hosts: database
+  remote_user: "{{ deploy_user }}"
+  tasks: []
+
+- name: drush site install
+  hosts: webserver
+  remote_user: "{{ deploy_user }}"
+  sudo: yes
+
+  # defaults: can override these using --extra-vars on the command line
+  vars:
+    drupal_path: /var/www/html/drupal
+    db: islf4
+    site: default
+    profile: standard
+    name: Islandora Fedora 4
+
+  tasks:
+    - name: drop and recreate site postgres database
+      postgresql_db:
+        login_host: "{{ hostvars[item.0.db.hostname]['ansible_' + private_network_interace]['ipv4']['address'] }}"
+        login_user: postgres
+        login_password: "{{ postgresql_pg_password }}"
+        name: "{{ item.0.db.name }}"
+        owner: "{{ item.0.db.name }}"
+        state: "{{ item.1 }}"
+      with_nested:
+        - drupal_sites
+        - "[ 'absent', 'present' ]"
+      when: item.0.code == site
+      tags:
+        - drush
+
+    - name: re/install site using drush
+      shell: >
+        drush si {{ profile }} -y \
+          --site-name="{{ name }}"
+        chdir={{ drupal_path }}/sites/{{ site }}
+      tags:
+        - drush
