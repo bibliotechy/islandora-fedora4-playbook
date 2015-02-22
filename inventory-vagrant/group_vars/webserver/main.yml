@@ -1,9 +1,15 @@
 ---
 
+# drupal_profiles:
+#   -
+#     name: islf4
+#     url: https://github/drupal-islf4-profile.git
+
 drupal_sites:
   -
     # drupal site dir
     code: default
+    profile: standard # update to islf4
     name: Islandora Fedora 4
     domain: islandora-fedora4.org
     password: islandora
@@ -11,6 +17,10 @@ drupal_sites:
     aliases:
       - islandora-fedora4.org
       - islf4.vagrant
+    modules: []
+      # -
+      #   name: islf4_features
+      #   url: https://github/drupal-islf4-features.git
     db:
       driver: pgsql
       hostname: islf4-db
