@@ -59,7 +59,7 @@
     - common
     - fuseki
 
-# NEED TO HAVE GATHERED DB FACTS
+# NEED TO HAVE GATHERED DB FACTS [--limit=database,webserver]
 # NEED TO HAVE PROVIDED ACCESS TO DB FROM WEBSERVER [SEE DB CONFIG]
 - name: webserver setup
   hosts: webserver
