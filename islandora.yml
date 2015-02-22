@@ -59,10 +59,38 @@
     - common
     - fuseki
 
+# NEED TO HAVE GATHERED DB FACTS
+# NEED TO HAVE PROVIDED ACCESS TO DB FROM WEBSERVER [SEE DB CONFIG]
 - name: webserver setup
   hosts: webserver
   remote_user: "{{ deploy_user }}"
   sudo: yes
+
+  pre_tasks:
+    - name: create site postgres database user
+      postgresql_user:
+        login_host: "{{ hostvars[item.db.hostname]['ansible_' + private_network_interace]['ipv4']['address'] }}"
+        login_user: postgres
+        login_password: "{{ postgresql_pg_password }}"
+        name: "{{ item.db.name }}"
+        password: "{{ item.db.password }}"
+        role_attr_flags: "SUPERUSER,INHERIT,NOCREATEDB,NOCREATEROLE,NOREPLICATION"
+      with_items: drupal_sites
+      tags:
+        - postgresql
+        - drupal
+
+    - name: create site postgres database
+      postgresql_db:
+        login_host: "{{ hostvars[item.db.hostname]['ansible_' + private_network_interace]['ipv4']['address'] }}"
+        login_user: postgres
+        login_password: "{{ postgresql_pg_password }}"
+        name: "{{ item.db.name }}"
+        owner: "{{ item.db.name }}"
+      with_items: drupal_sites
+      tags:
+        - postgresql
+        - drupal
 
   roles:
     - common

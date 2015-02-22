@@ -1,14 +1,37 @@
 <?php
 
-$databases = array();
+$databases = array (
+  'default' => array (
+    'default' => array (
+          'database' => '{{ item.db.name }}',
+          'username' => '{{ item.db.name }}',
+          'password' => '{{ item.db.password }}',
+          'host' => '{{ hostvars[item.db.hostname]['ansible_' + private_network_interace]['ipv4']['address'] }}',
+          'port' => '5432',
+          'driver' => 'pgsql',
+          'prefix' => '',
+    ),
+//    'slave' => array (
+//        'database' => 'drupal',
+//        'username' => 'drupal',
+//        'password' => 'drupal',
+//        'host' => '10.11.12.15',
+//        'port' => '5432',
+//        'driver' => 'pgsql',
+//        'prefix' => '',
+//    ),
+  ),
+);
+
 $update_free_access = FALSE;
-$drupal_hash_salt = '';
+$drupal_hash_salt = 'salty';
 
 ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 100);
 ini_set('session.gc_maxlifetime', 200000);
 ini_set('session.cookie_lifetime', 2000000);
 
+$conf['install_profile'] = 'standard';
 $conf['clean_url'] = 1;
 $conf['404_fast_paths_exclude'] = '/\/(?:styles)\//';
 $conf['404_fast_paths'] = '/\.(?:txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i';

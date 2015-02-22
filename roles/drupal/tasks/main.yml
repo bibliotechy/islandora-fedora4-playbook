@@ -12,6 +12,48 @@
   tags:
     - drupal
 
+- name: check pecl modules status
+  shell: >
+    pecl list {{ item }}
+  with_items: drupal_pecl_modules
+  register: pecl_list
+  changed_when: false
+  ignore_errors: true
+  tags:
+    - drupal
+    - pecl
+
+- name: install pecl modules
+  shell: >
+    pecl install {{ item.item }}
+  with_items: pecl_list.results
+  when: item.rc != 0
+  notify: restart apache2
+  tags:
+    - drupal
+    - pecl
+
+- name: copy pecl ini files to server
+  copy:
+    src: "{{ item }}.ini"
+    dest: "/etc/php5/mods-available/{{ item }}.ini"
+  with_items: drupal_pecl_modules
+  notify: restart apache2
+  tags:
+    - drupal
+    - pecl
+
+- name: symlink pecl ini files to php apache config
+  file:
+    src: "/etc/php5/mods-available/{{ item }}.ini"
+    dest: "/etc/php5/apache2/conf.d/20-{{ item }}.ini"
+    state: link
+  with_items: drupal_pecl_modules
+  notify: restart apache2
+  tags:
+    - drupal
+    - pecl
+
 - name: drush download drupal
   shell: >
     drush dl drupal --drupal-project-rename=drupal
@@ -64,6 +106,7 @@
   template:
     src: sites.php.j2
     dest: "{{ drupal_path }}/sites/sites.php"
+    backup: yes
   notify:
     - restart apache2
   tags:
@@ -73,9 +116,30 @@
   template:
     src: settings.php.j2
     dest: "{{ drupal_path }}/sites/{{ item.code }}/settings.php"
+    backup: yes
   with_items: drupal_sites
   notify:
     - restart apache2
+  tags:
+    - drupal
+
+- name: check if site install required
+  shell: >
+    drush status | grep Successful
+    chdir={{ drupal_path }}/sites/{{ item.code }}
+  with_items: drupal_sites
+  register: sites_status
+  changed_when: false
+  ignore_errors: true
+  tags:
+    - drupal
+
+- name: install sites
+  shell: >
+    drush si standard -y --site-name="{{ item.item.name }}" --account-pass={{ item.item.password }}
+    chdir={{ drupal_path }}/sites/{{ item.item.code }}
+  with_items: sites_status.results
+  when: item.rc != 0
   tags:
     - drupal
 

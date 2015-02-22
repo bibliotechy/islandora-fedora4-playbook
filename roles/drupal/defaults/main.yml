@@ -7,9 +7,14 @@ drupal_configure_vhosts: true
 
 drupal_php_packages:
   - php5-cli
+  - php5-dev
   - php5-gd
   - php5-mysql
   - php5-pgsql
+  - php-pear
+
+drupal_pecl_modules:
+  - uploadprogress
 
 drupal_drush_modules:
   - devel

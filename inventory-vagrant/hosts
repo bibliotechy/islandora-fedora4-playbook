@@ -1,7 +1,9 @@
 [all:vars]
 deploy_user=vagrant
+private_network_interace=eth1
 ansible_ssh_host=10.11.12.15
-postgresql_db_master=islf4-db
+# this would really be vault encrypted
+postgresql_pg_password=postgres
 
 # suffixed aliases to "simulate" different hostnames and allow `--limit`
 

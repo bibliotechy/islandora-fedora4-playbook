@@ -42,5 +42,27 @@
   postgresql_user:
     name: "postgres"
     password: "{{ postgresql_pg_password }}"
+  notify:
+    - restart postgresql
   tags:
-   - postgres
+   - postgresql
+
+# todo: template and improve security
+- name: allow access to database from external servers
+  lineinfile:
+    dest: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+    line: "host    all    all    0.0.0.0/0    md5"
+  notify:
+    - restart postgresql
+  tags:
+    - postgresql
+
+# todo: template and improve security
+- name: allow access to database from external servers
+  lineinfile:
+    dest: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+    line: "listen_addresses = '*'"
+  notify:
+    - restart postgresql
+  tags:
+    - postgresql

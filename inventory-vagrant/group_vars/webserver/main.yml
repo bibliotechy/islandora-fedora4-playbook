@@ -2,13 +2,17 @@
 
 drupal_sites:
   -
-    # drupal site dir, db name and db username
+    # drupal site dir
     code: default
     name: Islandora Fedora 4
     domain: islandora-fedora4.org
-    # drupal admin and db username password
     password: islandora
     # sites.php mappings (include domain)
     aliases:
       - islandora-fedora4.org
       - islf4.vagrant
+    db:
+      driver: pgsql
+      hostname: islf4-db
+      name: islf4
+      password: islandora
