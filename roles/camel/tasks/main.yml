@@ -20,3 +20,28 @@
     - maven
   tags:
     - camel
+
+- name: create camel package directory
+  file:
+    path: /opt/camel
+    state: directory
+  tags:
+   - camel
+
+- name: copy camel to server
+  unarchive:
+    src: "bin/{{ camel_bin }}"
+    dest: "/opt/camel"
+    creates: "/opt/camel/{{ camel_pkg }}"
+  tags:
+   - camel
+
+# permissions ...
+
+- name: symlink camel home
+  file:
+    src: "/opt/camel/{{ camel_pkg }}"
+    dest: "{{ camel_home }}"
+    state: link
+  tags:
+   - camel

@@ -8,3 +8,19 @@
     dest="bin/{{ fcrepo_camel_bin }}"
   tags:
    - fcrepo-camel
+
+- name: create fcrepo-camel home
+  file:
+    path: "{{ fcrepo_camel_home }}"
+    state: directory
+  tags:
+   - fcrepo-camel
+
+- name: copy fcrepo-camel to server
+  copy:
+    src: "bin/{{ fcrepo_camel_bin }}"
+    dest: "{{ fcrepo_camel_home }}/{{ fcrepo_camel_bin }}"
+  tags:
+   - fcrepo-camel
+
+# permissions ...
