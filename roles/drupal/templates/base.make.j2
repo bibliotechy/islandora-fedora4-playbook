@@ -1,0 +1,15 @@
+; Base drush make file.
+; drush make -y base.make --no-core
+
+api = 2
+core = 7.x
+
+{% for module in drupal_drush_modules %}
+projects[{{ module }}][subdir] = contrib
+{% endfor %}
+
+{% for library in drupal_drush_libraries %}
+libraries[{{ library.name }}][download][type] = "{{ library.type }}"
+libraries[{{ library.name }}][download][url] = "{{ library.url }}"
+libraries[{{ library.name }}][destination] = "libraries"
+{% endfor %}
