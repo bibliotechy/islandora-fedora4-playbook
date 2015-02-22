@@ -48,17 +48,17 @@
    - postgresql
 
 # todo: template and improve security
-- name: allow access to database from external servers
+- name: allow access to database from external servers (pg_hba)
   lineinfile:
     dest: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
-    line: "host    all    all    0.0.0.0/0    md5"
+    line: "host    all    all    10.0.0.0/8    md5"
   notify:
     - restart postgresql
   tags:
     - postgresql
 
 # todo: template and improve security
-- name: allow access to database from external servers
+- name: allow access to database from external servers (postgresql.conf)
   lineinfile:
     dest: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
     line: "listen_addresses = '*'"

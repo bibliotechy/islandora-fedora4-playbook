@@ -4,3 +4,5 @@
   service:
     name: postgresql
     state: restarted
+  tags:
+    - postgresql
