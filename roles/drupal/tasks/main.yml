@@ -64,11 +64,30 @@
   tags:
     - drupal
 
+- name: create additional drupal directories
+  file:
+    path: "{{ drupal_path }}/sites/all/{{ item }}"
+    state: directory
+  with_items:
+    - "modules/contrib"
+    - "libraries"
+  tags:
+    - drupal
+
+- name: download drupal profiles
+  git:
+    url: "{{ item.url }}"
+    dest: "{{ drupal_path }}/profiles/{{ item.name }}"
+    accept_hostkey: yes
+  with_items: drupal_profiles
+  tags:
+    - drupal
+
 - name: drush download modules
   shell: >
     drush dl {{ item }}
-    chdir={{ drupal_path }}/sites/all/modules
-    creates={{ drupal_path }}/sites/all/modules/{{ item }}
+    chdir={{ drupal_path }}/sites/all/modules/contrib
+    creates={{ drupal_path }}/sites/all/modules//contrib/{{ item }}
   with_items: drupal_drush_modules
   tags:
     - drupal
@@ -82,11 +101,19 @@
   tags:
     - drupal
 
+- name: create drush make file
+  template:
+    src: base.make.j2
+    dest: "{{ drupal_path }}/base.make"
+    backup: yes
+  tags:
+    - drupal
+    - make
+
 - name: create drupal site directories
   file:
-    path: "{{ drupal_path }}/sites/{{ item.code }}"
+    path: "{{ drupal_path }}/sites/{{ item.code }}/modules"
     state: directory
-    mode: "0755"
   with_items: drupal_sites
   tags:
     - drupal
@@ -99,6 +126,17 @@
   with_nested:
     - drupal_sites
     - "[ 'files', 'xmlsitemap' ]"
+  tags:
+    - drupal
+
+- name: download site required modules
+  git:
+    url: "{{ item.1.url }}"
+    dest: "{{ drupal_path }}/sites/{{ item.0.code }}/modules/{{ item.1.name }}"
+    accept_hostkey: yes
+  with_subelements:
+    - drupal_sites
+    - modules
   tags:
     - drupal
 
@@ -136,7 +174,7 @@
 
 - name: install sites
   shell: >
-    drush si standard -y --site-name="{{ item.item.name }}" --account-pass={{ item.item.password }}
+    drush si {{ item.item.profile }} -y --site-name="{{ item.item.name }}" --account-pass={{ item.item.password }}
     chdir={{ drupal_path }}/sites/{{ item.item.code }}
   with_items: sites_status.results
   when: item.rc != 0

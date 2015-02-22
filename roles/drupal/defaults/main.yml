@@ -16,9 +16,24 @@ drupal_php_packages:
 drupal_pecl_modules:
   - uploadprogress
 
+# profile repositories (name, url)
+drupal_profiles: []
+
 drupal_drush_modules:
+  - admin_views
+  - colorbox
+  - ctools
   - devel
+  - entity
+  - entityreference
+  - features
+  - jquery_update
+  - libraries
   - services
+  - views
+  - views_bulk_operations
+
+drupal_drush_libraries: []
 
 drupal_drush_themes:
   - bootstrap
