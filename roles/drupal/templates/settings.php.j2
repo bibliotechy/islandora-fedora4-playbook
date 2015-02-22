@@ -15,7 +15,7 @@ $databases = array (
 //        'database' => 'drupal',
 //        'username' => 'drupal',
 //        'password' => 'drupal',
-//        'host' => '10.11.12.15',
+//        'host' => '10.11.12.16',
 //        'port' => '5432',
 //        'driver' => 'pgsql',
 //        'prefix' => '',
@@ -24,14 +24,14 @@ $databases = array (
 );
 
 $update_free_access = FALSE;
-$drupal_hash_salt = 'salty';
+$drupal_hash_salt = '{{ item.salt }}';
 
 ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 100);
 ini_set('session.gc_maxlifetime', 200000);
 ini_set('session.cookie_lifetime', 2000000);
 
-$conf['install_profile'] = 'standard';
+$conf['install_profile'] = '{{ item.profile }}';
 $conf['clean_url'] = 1;
 $conf['404_fast_paths_exclude'] = '/\/(?:styles)\//';
 $conf['404_fast_paths'] = '/\.(?:txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i';

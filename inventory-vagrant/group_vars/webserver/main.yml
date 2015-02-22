@@ -5,14 +5,17 @@
 #     name: islf4
 #     url: https://github/drupal-islf4-profile.git
 
+# passwords would really be encrypted and included via:
+# {{ SITE_password }} {{ SITE_salt }} {{ SITE_db_password }}
 drupal_sites:
   -
     # drupal site dir
-    code: default
+    site: default
     profile: standard # update to islf4
     name: Islandora Fedora 4
     domain: islandora-fedora4.org
     password: islandora
+    salt: U8aNDD9F9PtsH3Gazyj9eGuM
     # sites.php mappings (include domain)
     aliases:
       - islandora-fedora4.org

@@ -112,7 +112,7 @@
 
 - name: create drupal site directories
   file:
-    path: "{{ drupal_path }}/sites/{{ item.code }}/modules"
+    path: "{{ drupal_path }}/sites/{{ item.site }}/modules"
     state: directory
   with_items: drupal_sites
   tags:
@@ -120,7 +120,7 @@
 
 - name: create drupal site sub-directories
   file:
-    path: "{{ drupal_path }}/sites/{{ item.0.code }}/{{ item.1 }}"
+    path: "{{ drupal_path }}/sites/{{ item.0.site }}/{{ item.1 }}"
     state: directory
     mode: "0775"
   with_nested:
@@ -132,7 +132,7 @@
 - name: download site required modules
   git:
     url: "{{ item.1.url }}"
-    dest: "{{ drupal_path }}/sites/{{ item.0.code }}/modules/{{ item.1.name }}"
+    dest: "{{ drupal_path }}/sites/{{ item.0.site }}/modules/{{ item.1.name }}"
     accept_hostkey: yes
   with_subelements:
     - drupal_sites
@@ -144,6 +144,8 @@
   template:
     src: sites.php.j2
     dest: "{{ drupal_path }}/sites/sites.php"
+    owner: www-data
+    group: www-data
     backup: yes
   notify:
     - restart apache2
@@ -153,7 +155,10 @@
 - name: add site settings
   template:
     src: settings.php.j2
-    dest: "{{ drupal_path }}/sites/{{ item.code }}/settings.php"
+    dest: "{{ drupal_path }}/sites/{{ item.site }}/settings.php"
+    owner: www-data
+    group: www-data
+    mode: "0644"
     backup: yes
   with_items: drupal_sites
   notify:
@@ -164,7 +169,7 @@
 - name: check if site install required
   shell: >
     drush status | grep Successful
-    chdir={{ drupal_path }}/sites/{{ item.code }}
+    chdir={{ drupal_path }}/sites/{{ item.site }}
   with_items: drupal_sites
   register: sites_status
   changed_when: false
@@ -175,7 +180,7 @@
 - name: install sites
   shell: >
     drush si {{ item.item.profile }} -y --site-name="{{ item.item.name }}" --account-pass={{ item.item.password }}
-    chdir={{ drupal_path }}/sites/{{ item.item.code }}
+    chdir={{ drupal_path }}/sites/{{ item.item.site }}
   with_items: sites_status.results
   when: item.rc != 0
   tags:
@@ -194,7 +199,7 @@
 - name: create site virtual hosts
   template:
     src: site.conf.j2
-    dest: "/etc/apache2/sites-available/{{ item.code }}.conf"
+    dest: "/etc/apache2/sites-available/{{ item.site }}.conf"
   with_items: drupal_sites
   when: drupal_configure_vhosts
   notify:
@@ -204,8 +209,8 @@
 
 - name: enable site virtual hosts
   file:
-    src: "/etc/apache2/sites-available/{{ item.code }}.conf"
-    dest: "/etc/apache2/sites-enabled/{{ item.code }}.conf"
+    src: "/etc/apache2/sites-available/{{ item.site }}.conf"
+    dest: "/etc/apache2/sites-enabled/{{ item.site }}.conf"
     state: link
   with_items: drupal_sites
   when: drupal_configure_vhosts

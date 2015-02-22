@@ -20,6 +20,7 @@
     site: default
     profile: standard
     name: Islandora Fedora 4
+    password: islandora
 
   tasks:
     - name: drop and recreate site postgres database
@@ -33,14 +34,15 @@
       with_nested:
         - drupal_sites
         - "[ 'absent', 'present' ]"
-      when: item.0.code == site
+      when: item.0.site == site
       tags:
         - drush
 
     - name: re/install site using drush
       shell: >
         drush si {{ profile }} -y \
-          --site-name="{{ name }}"
+          --site-name="{{ name }}" \
+          --account-pass="{{ password }}"
         chdir={{ drupal_path }}/sites/{{ site }}
       tags:
         - drush

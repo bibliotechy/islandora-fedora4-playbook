@@ -16,8 +16,8 @@
                 include /var/www/html/drupal/.htaccess
         </Directory>
 
-        ErrorLog ${APACHE_LOG_DIR}/error-{{ item.code }}.log
-        CustomLog ${APACHE_LOG_DIR}/access-{{ item.code }}.log combined
+        ErrorLog ${APACHE_LOG_DIR}/error-{{ item.site }}.log
+        CustomLog ${APACHE_LOG_DIR}/access-{{ item.site }}.log combined
 </VirtualHost>
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
