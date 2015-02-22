@@ -19,20 +19,34 @@ The vagrant configuration will install all components onto a single VM.
 vagrant up
 ```
 
-Running Ansible directly
-------------------------
+**Reapply configuration**
 
-**Example:**
+```
+vagrant provision
+```
+
+**Reinstall islf4 site**
+
+```
+ansible-playbook -i inventory-vagrant/hosts drush-si.yml --private-key=~/.vagrant.d/insecure_private_key
+```
+
+_See play file for options._
+
+**Running Ansible directly**
 
 ```
 # using limit
-ansible-playbook -i inventory-vagrant/hosts islandora.yml --limit=webserver --private-key=~/.vagrant.d/insecure_private_key
+ansible-playbook -i inventory-vagrant/hosts islandora.yml \
+  --limit=databasewebserver --private-key=~/.vagrant.d/insecure_private_key
 
 # using tags
-ansible-playbook -i inventory-vagrant/hosts islandora.yml --tags=fuseki --private-key=~/.vagrant.d/insecure_private_key
+ansible-playbook -i inventory-vagrant/hosts islandora.yml \
+  --tags=fuseki --private-key=~/.vagrant.d/insecure_private_key
 
 # combined
-ansible-playbook -i inventory-vagrant/hosts islandora.yml --limit=webserver --tags=drupal --private-key=~/.vagrant.d/insecure_private_key
+ansible-playbook -i inventory-vagrant/hosts islandora.yml \
+  --limit=database,webserver --tags=drupal --private-key=~/.vagrant.d/insecure_private_key
 ```
 
 Future
@@ -40,5 +54,6 @@ Future
 
 - Ignore roles directory contents and use requirements file to download them
 - Integrate (example) using cloud provider (i.e. AWS)
+- Test `vagrant` folder symlinks to source directories
 
 ---
