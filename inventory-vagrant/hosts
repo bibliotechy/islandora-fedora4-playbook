@@ -4,6 +4,7 @@ private_network_interace=eth1
 ansible_ssh_host=10.11.12.15
 # this would really be vault encrypted
 postgresql_pg_password=postgres
+drupal_opcache=false
 
 # suffixed aliases to "simulate" different hostnames and allow `--limit`
 

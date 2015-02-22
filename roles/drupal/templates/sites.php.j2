@@ -1,5 +1,6 @@
 <?php
 {% for site in drupal_sites -%}
+$sites['{{ site.domain }}'] = '{{ site.site }}';
 {% for alias in site.aliases -%}
 $sites['{{ alias }}'] = '{{ site.site }}';
 {% endfor %}

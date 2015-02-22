@@ -158,7 +158,7 @@
     dest: "{{ drupal_path }}/sites/{{ item.site }}/settings.php"
     owner: www-data
     group: www-data
-    mode: "0644"
+    mode: "0444"
     backup: yes
   with_items: drupal_sites
   notify:

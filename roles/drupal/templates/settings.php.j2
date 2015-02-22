@@ -30,6 +30,7 @@ ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 100);
 ini_set('session.gc_maxlifetime', 200000);
 ini_set('session.cookie_lifetime', 2000000);
+ini_set('opcache.enable', {{ drupal_opcache | string }});
 
 $conf['install_profile'] = '{{ item.profile }}';
 $conf['clean_url'] = 1;

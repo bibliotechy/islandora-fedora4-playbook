@@ -2,6 +2,9 @@
 
 drupal_path: /var/www/html/drupal
 
+# set to "false" for dev environments: ('opcache.enable', false)
+drupal_opcache: true
+
 # set to false if another role will provide vhost configuration
 drupal_configure_vhosts: true
 

@@ -31,9 +31,7 @@ drupal_sites:
     domain: islandora-fedora4.org
     password: islandora
     salt: U8aNDD9F9PtsH3Gazyj9eGuM
-    # sites.php mappings (include domain)
     aliases:
-      - islandora-fedora4.org
       - islf4.vagrant
     modules: []
       # with_flattened provides std way to iterate through all elements
