@@ -10,6 +10,7 @@ $islf4 = {
     { guest: 80, host: 8000 },   # apache
     { guest: 3030, host: 3030 }, # fuseki
     { guest: 3306, host: 3306 }, # mysql
+    { guest: 5432, host: 5432 }, # postgres
     { guest: 8080, host: 8080 }, # tomcat
     { guest: 8181, host: 8181 }, # karaf
   ],
