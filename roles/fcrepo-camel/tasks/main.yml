@@ -13,6 +13,8 @@
   file:
     path: "{{ fcrepo_camel_home }}"
     state: directory
+    owner: tomcat7
+    group: tomcat7
   tags:
    - fcrepo-camel
 
@@ -20,7 +22,7 @@
   copy:
     src: "bin/{{ fcrepo_camel_bin }}"
     dest: "{{ fcrepo_camel_home }}/{{ fcrepo_camel_bin }}"
+    owner: tomcat7
+    group: tomcat7
   tags:
    - fcrepo-camel
-
-# permissions ...

@@ -36,7 +36,15 @@
   tags:
    - camel
 
-# permissions ...
+- name: re/set camel directory permissions
+  file:
+    path: /opt/camel
+    owner: tomcat7
+    group: tomcat7
+    state: directory
+    recurse: yes
+  tags:
+   - camel
 
 - name: symlink camel home
   file:
