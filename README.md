@@ -7,8 +7,14 @@ Requirements
 ------------
 
 - Virtualbox
+  - versions:
+    - 4.3.18
 - Vagrant
+  - versions:
+    - 1.6.5
 - Ansible
+  - versions:
+    - 1.7.2
 
 Quickstart
 ----------
