@@ -36,6 +36,7 @@ drupal_drush_modules:
   - jquery_update
   - libraries
   - services
+  - strongarm
   - views
   - views_bulk_operations
 

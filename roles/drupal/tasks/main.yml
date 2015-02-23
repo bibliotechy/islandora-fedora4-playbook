@@ -76,7 +76,7 @@
 
 - name: download drupal profiles
   git:
-    url: "{{ item.url }}"
+    repo: "{{ item.url }}"
     dest: "{{ drupal_path }}/profiles/{{ item.name }}"
     accept_hostkey: yes
   with_items: drupal_profiles
@@ -153,7 +153,7 @@
 
 - name: download site required modules and themes
   git:
-    url: "{{ item.1.url }}"
+    repo: "{{ item.1.url }}"
     dest: "{{ drupal_path }}/sites/{{ item.0.site }}/{{ item.1.type }}/{{ item.1.name }}"
     accept_hostkey: yes
   with_subelements:

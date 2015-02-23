@@ -1,9 +1,9 @@
 ---
 
-# drupal_profiles:
-#   -
-#     name: islf4
-#     url: https://github/drupal-islf4-profile.git
+drupal_profiles:
+  -
+    name: islf4
+    url: https://github.com/mark-cooper/islf4_profile.git
 
 # tmp: symlink
 drupal_local_modules:
@@ -23,18 +23,18 @@ drupal_sites:
   -
     # drupal site dir
     site: default
-    profile: standard # update to islf4
+    profile: islf4 # update to islf4
     name: Islandora Fedora 4
     domain: islandora-fedora4.org
     password: islandora
     salt: U8aNDD9F9PtsH3Gazyj9eGuM
     aliases:
       - islf4.vagrant
-    modules: []
-      # -
-      #   name: islf4_features
-      #   url: https://github/drupal-islf4-features.git
-      #   type: modules
+    modules:
+      -
+        name: islf4_features
+        url: https://github.com/mark-cooper/islf4_features.git
+        type: modules
       # -
       #   name: islf4_theme
       #   url: https://github/drupal-islf4-theme.git
