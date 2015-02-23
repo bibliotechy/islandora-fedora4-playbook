@@ -16,8 +16,8 @@ islf4-db
 [fedora]
 islf4-fedora
 
-[camel]
-islf4-camel
+[sync]
+islf4-sync
 
 [solr]
 islf4-solr

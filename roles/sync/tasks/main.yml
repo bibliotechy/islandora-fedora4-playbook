@@ -1,0 +1,54 @@
+---
+
+# expect this to change ...
+
+- name: download sync (tmp!)
+  sudo: no
+  local_action: >
+    git
+    repo="{{ sync_url }}"
+    dest="bin/islandora"
+    version="{{ sync_branch }}"
+  tags:
+   - sync
+
+- name: copy sync to server
+  copy:
+    src: bin/islandora/camel/sync/
+    dest: "{{ sync_path }}"
+  register: sync_transfer
+  tags:
+   - sync
+
+- name: build sync
+  shell: >
+    mvn install
+    chdir={{ sync_path }}
+  when: sync_transfer.changed
+  tags:
+    - sync
+
+- name: copy sync war to tomcat webapps
+  shell: >
+    cp {{ sync_path }}/target/{{ sync_version }} \
+      {{ tomcat7_base }}/webapps/sync.war
+  when: sync_transfer.changed
+  notify:
+    - restart tomcat7
+  tags:
+   - sync
+
+- name: re/set tomcat permissions
+  file:
+    path: "{{ item.path }}"
+    owner: tomcat7
+    group: tomcat7
+    state: "{{ item.state }}"
+    recurse: "{{ item.recurse }}"
+  with_items:
+    -
+      path: "{{ tomcat7_base }}"
+      state: directory
+      recurse: yes
+  tags:
+   - sync

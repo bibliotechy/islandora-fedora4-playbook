@@ -32,16 +32,14 @@
     - common
     - fcrepo4
 
-- name: camel setup
-  hosts: camel
+- name: sync setup
+  hosts: sync
   remote_user: "{{ deploy_user }}"
   sudo: yes
 
   roles:
     - common
-    # - tomcat7
-    - camel
-    - fcrepo-camel
+    - sync
 
 - name: solr setup
   hosts: solr

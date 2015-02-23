@@ -25,10 +25,19 @@ vagrant up
 vagrant provision
 ```
 
+**Rebuild and redeploy sync**
+
+```
+# runs if there are upstream changes
+ansible-playbook -i inventory-vagrant/hosts islandora.yml \
+  --limit=sync --private-key=~/.vagrant.d/insecure_private_key
+```
+
 **Reinstall islf4 site**
 
 ```
-ansible-playbook -i inventory-vagrant/hosts drush-si.yml --private-key=~/.vagrant.d/insecure_private_key
+ansible-playbook -i inventory-vagrant/hosts drush-si.yml \
+  --private-key=~/.vagrant.d/insecure_private_key
 ```
 
 _See play file for options._

@@ -1,0 +1,7 @@
+---
+
+# expect this to change ...
+sync_version: sync-0.0-SNAPSHOT.war
+sync_url: https://github.com/Islandora-Labs/islandora.git
+sync_branch: 7.x-2.x
+sync_path: /opt/sync
