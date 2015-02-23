@@ -47,7 +47,7 @@ _See play file for options._
 ```
 # using limit
 ansible-playbook -i inventory-vagrant/hosts islandora.yml \
-  --limit=databasewebserver --private-key=~/.vagrant.d/insecure_private_key
+  --limit=database,webserver --private-key=~/.vagrant.d/insecure_private_key
 
 # using tags
 ansible-playbook -i inventory-vagrant/hosts islandora.yml \
