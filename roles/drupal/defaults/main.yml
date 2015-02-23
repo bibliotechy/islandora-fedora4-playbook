@@ -21,6 +21,9 @@ drupal_pecl_modules:
 
 # profile repositories (name, url)
 drupal_profiles: []
+# tmp
+drupal_local_modules: []
+drupal_remote_modules: []
 
 drupal_drush_modules:
   - admin_views

@@ -5,20 +5,17 @@
 #     name: islf4
 #     url: https://github/drupal-islf4-profile.git
 
-islandora_modules_path: "{{ drupal_path }}/sites/all/modules"
+# tmp: symlink
+drupal_local_modules:
+  -
+    path: /vagrant/bin/islandora/drupal
+    dest: sites/all/modules/islandora
 
 # suppose there's a master repository containing all modules
-islandora_modules:
-  -
-    name: islandora
-    url: https://github/islandora_modules.git
-    path: "{{ islandora_modules_path }}"
-
-islandora_custom_modules:
-  -
-    name: islf4_features
-    url: https://github/drupal-islf4-features.git
-    path: "sites/default/modules"
+# drupal_remote_modules:
+#   -
+#     name: islandora
+#     url: https://github/islandora_modules.git
 
 # passwords would really be encrypted and included via:
 # {{ SITE_password }} {{ SITE_salt }} {{ SITE_db_password }}
@@ -34,9 +31,14 @@ drupal_sites:
     aliases:
       - islf4.vagrant
     modules: []
-      # with_flattened provides std way to iterate through all elements
-      # - islandora_modules
-      # - islandora_custom_modules
+      # -
+      #   name: islf4_features
+      #   url: https://github/drupal-islf4-features.git
+      #   type: modules
+      # -
+      #   name: islf4_theme
+      #   url: https://github/drupal-islf4-theme.git
+      #   type: themes
     db:
       driver: pgsql
       hostname: islf4-db

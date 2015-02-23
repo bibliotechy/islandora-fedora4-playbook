@@ -83,6 +83,26 @@
   tags:
     - drupal
 
+# tmp
+- name: symlink local drupal modules on server
+  file:
+    src: "{{ item.path }}"
+    dest: "{{ drupal_path }}/{{ item.dest }}"
+    state: link
+  with_items: drupal_local_modules
+  tags:
+    - drupal
+    - local_modules
+
+- name: download remote drupal modules on server
+  git:
+    repo: "{{ item.url }}"
+    dest: "{{ drupal_path }}/sites/all/modules/{{ item.name }}"
+    accept_hostkey: yes
+  with_items: drupal_remote_modules
+  tags:
+    - drupal
+
 - name: drush download modules
   shell: >
     drush dl {{ item }}
@@ -112,13 +132,15 @@
 
 - name: create drupal site directories
   file:
-    path: "{{ drupal_path }}/sites/{{ item.site }}/modules"
+    path: "{{ drupal_path }}/sites/{{ item.0.site }}/{{ item.1 }}"
     state: directory
-  with_items: drupal_sites
+  with_nested:
+    - drupal_sites
+    - "[ 'modules', 'themes' ]"
   tags:
     - drupal
 
-- name: create drupal site sub-directories
+- name: create drupal site writeable sub-directories
   file:
     path: "{{ drupal_path }}/sites/{{ item.0.site }}/{{ item.1 }}"
     state: directory
@@ -129,10 +151,10 @@
   tags:
     - drupal
 
-- name: download site required modules
+- name: download site required modules and themes
   git:
     url: "{{ item.1.url }}"
-    dest: "{{ drupal_path }}/sites/{{ item.0.site }}/modules/{{ item.1.name }}"
+    dest: "{{ drupal_path }}/sites/{{ item.0.site }}/{{ item.1.type }}/{{ item.1.name }}"
     accept_hostkey: yes
   with_subelements:
     - drupal_sites
